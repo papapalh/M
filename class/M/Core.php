@@ -48,19 +48,23 @@ namespace M {
 
       \M\Config::setup();
       // var_dump(getcwd());
-      // Event::setup();
+      // \M\Event::setup();
 
-      // var_dump($_SERVER);
+      // CGI-setup启动
+      !method_exists('\M\Application', 'setup') or \M\Application::setup();
 
+   //    define('APP_HASH', sha1());
 
-			
-			$obj = new \M\Controller\CGI\Login();
-			echo "<br>";
-			// assert("\M\Core::shutdown()");
-			// var_dump( is_int( $obj ) );
-			echo "<br>";
+   //    \M\Config::set("logger");
+			// $aaa = \M\Config::get("logger");
+   //    var_dump($aaa);
+			// // $obj = new \M\Controller\CGI\Login();
+			// echo "<br>";
+			// // assert("\M\Core::shutdown()");
+			// // var_dump( is_int( $obj ) );
+			// echo "<br>";
 
-			$obj->aaa();
+			// $obj->aaa();
 		}
 
 		/**
@@ -73,6 +77,7 @@ namespace M {
       $path = str_replace('\\', '/', $class);
 
 			$M_file = M_CLASS_PATH .'/'. $path .'.php';
+
       $app_file = SYS_CLASS_PATH . '/'. $path .'.php';
       if (is_file($M_file)) {
         require_once($M_file);
@@ -90,7 +95,7 @@ namespace M {
 		 **/
 		public static function shutdown()
     {    
-    	echo "\n";
+    	echo "<br>";
       echo 'php finish!';
     }
 
@@ -124,6 +129,10 @@ namespace M {
     }
 
     public static function import()
+    {
+    }
+
+    public static function pharFilePaths($base, $file)
     {
 
     }
