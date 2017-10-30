@@ -50,8 +50,13 @@ namespace M {
       // var_dump(getcwd());
       // \M\Event::setup();
 
-      // CGI-setup启动
+      // CGI-setup-初始定义启动
       !method_exists('\M\Application', 'setup') or \M\Application::setup();
+
+      // CGI-main启动-路由分发
+      global $argv;
+      !method_exists('\M\Application', 'main') or \M\Application::main($argv);
+
 
    //    define('APP_HASH', sha1());
 

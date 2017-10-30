@@ -22,6 +22,26 @@ class Session
 	}
 
 	public static function open() {
-		
+		// 如果是CLI或者Session禁用/存在，则返回
+		// session_status() == 0  PHP_SESSION_DISABLED  会话是被禁用的  
+		// session_status() == 1  PHP_SESSION_NONE      会话是启用的，但不存在当前会话
+		// session_status() == 2  PHP_SESSION_ACTIVE    会话是启用的，而且存在当前会话  
+
+		if (PHP_SAPI == 'cli'
+      || session_status() === PHP_SESSION_DISABLED
+      || session_status() === PHP_SESSION_ACTIVE) {
+      return;
+    }
+
+    // 定义错误函数和通知
+    set_error_handler(function () {}, E_ALL ^ E_NOTICE);
+    // Seesion开始
+    session_start();
+    // 恢复之前的错误处理程序
+    restore_error_handler();
+    // 定位当前时间
+    $now = time();
+    //定义销毁Session
+
 	}
 }
