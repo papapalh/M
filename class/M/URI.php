@@ -3,6 +3,15 @@ namespace M {
 
 	class URI 
 	{
+		public static function url($url = null, $query = null, $fragment = null) {
+
+			if (!$url) {
+       	$url = \M\CGI::route();
+      }
+      return $url;
+      // $ui = parse_url($url);
+		}
+
 
 		protected static $_base;
 		protected static $_rurl;
@@ -28,4 +37,15 @@ namespace M {
 		}	
 	}
 
+}
+
+namespace {
+	if (function_exists('URL')) {
+        die('URL() 函数已经被定义');
+    } else {
+        function URL($url = null, $query = null, $fragment = null)
+        {
+            return \M\URI::url($url, $query, $fragment);
+        }
+    }
 }
