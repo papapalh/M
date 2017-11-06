@@ -46,6 +46,12 @@ namespace M {
       	require_once $compose_path;
       }
 
+      // 加载Db
+      $db_path =  M_CLASS_PATH . '/M/Those.php';
+      if (file_exists($db_path)) {
+        require_once $db_path;
+      }
+
       \M\Config::setup();
       // var_dump(getcwd());
       // \M\Event::setup();
@@ -56,7 +62,6 @@ namespace M {
       // CGI-main启动-路由分发
       global $argv;
       !method_exists('\M\Application', 'main') or \M\Application::main($argv);
-
 
    //    define('APP_HASH', sha1());
 
@@ -100,8 +105,7 @@ namespace M {
 		 **/
 		public static function shutdown()
     {    
-    	echo "<br>";
-      echo 'php finish!';
+    	!method_exists('\M\Application', 'shutdown') or \M\Application::shutdown();
     }
 
     /**

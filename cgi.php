@@ -20,7 +20,7 @@ class Application
 
 	public static function shutdown()
 	{
-
+		CGI::shutdown();
 	}
 
 	public static function exception($e)

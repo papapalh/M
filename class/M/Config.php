@@ -74,6 +74,7 @@
     			$content = trim($content);
     			$content = yaml_parse($content);
     			// array_push(, var)
+                var_dump($content);
     			break;
     		
     		default:

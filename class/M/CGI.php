@@ -27,8 +27,7 @@ class CGI
 	}
 
 	// 获取控制器和方法(反转)
-	public static function request($route, array $env = array())
-	{
+	public static function request($route, array $env = array()) {
 		// 切分路由为字符串并进行字符自动解码
 		$args = array_map('rawurldecode', explode('/', $route));
 		// 定义路径
@@ -76,5 +75,10 @@ class CGI
   public static function redirect($url = '') {
   	header('Location:'.URL($url), true, 302);
   	exit();
+  }
+
+  // 脚本关闭调用函数
+  public static function shutdown() {
+    Session::shutdown();
   }
 }

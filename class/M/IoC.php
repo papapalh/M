@@ -13,9 +13,10 @@ class IoC {
 		$args = func_get_args();
     $name = array_shift($args);
     $key = self::key($name);
+   	// var_dump($args);
 
 		// 建立这个类的映射,也就可以调用这个类的方法
 		$rc = new \ReflectionClass($key);
-		return $rc->newInstanceArgs();
+		return $rc->newInstanceArgs($args);
 	}
 }
