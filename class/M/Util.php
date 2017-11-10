@@ -6,6 +6,11 @@ class Util
 	// 路由路径处理
 	public static function pathAndArgs(array $argv)
 	{
+    // 因为没有加环境变量--所以如果为CLI则过滤第一个参数
+    if (PHP_SAPI == 'cli') {
+      array_shift($argv);
+    }
+
     $candidates = [];
 
   	// 控制器

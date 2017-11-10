@@ -20,7 +20,7 @@
 				self::$items = self::fetch();
 			}
 
-				// self::$items = self::fetch();
+				self::$items = self::fetch();
 
 		}
 		
@@ -62,25 +62,25 @@
     	}
     	// 检查文件后缀并写入配置JSON
     	$dh = pathinfo($base, PATHINFO_EXTENSION);
+        print_r($dh);
     	switch ($dh) {
     		case 'yml':
     		case 'yaml':
     			// 获取当前配置文件内容
     			$content = file_get_contents($base);
 
-    			// $content = preg_replace_callback('/\{\{([A-Z0-9_]+?)\}\}/', function ($matches){
-       //              return getenv($matches[1]) ?: $matches[0];
-    			// });
     			$content = trim($content);
     			$content = yaml_parse($content);
-    			// array_push(, var)
-                var_dump($content);
+
+                // array_push(array, var)
+    			// array_push($aaa, $content);
+                // print_r($content);
     			break;
-    		
     		default:
     			# code...
     			break;
     	}
+        // print_r(gettype($items));
     }
 
     // 获取配置信息

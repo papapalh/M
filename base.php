@@ -30,6 +30,9 @@
 	// 定义项目cache目录
 	defined('SYS_CACHE_PATH') or define('SYS_CACHE_PATH',SYS_PATH . '/cache');
 
+	// 定义项目ORM目录
+	defined('SYS_ORM_PATH') or define('SYS_ORM_PATH',SYS_CLASS_PATH .'/M/ORM');
+
 
 	// 定义框架M工作目录
 	defined('M_PATH') or define('M_PATH',SYS_PATH . '/M');

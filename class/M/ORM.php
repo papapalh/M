@@ -24,15 +24,25 @@ class ORM
   		// 获取ORM对象的类名
   		$class_name = get_class($this);
 
-  		if (!isset(self::$_structures[$class_name])) {
-  			
-  		}
+  		$properties = $this->properties();
 
-  		var_dump($class_name);
+  	}
+
+  	public function properties() {
+  		// 把自己这个ORM对象做一个映射
+  		$rc = new \ReflectionClass($this);
+      $defaults = $rc->getDefaultProperties();
   	}
 
   	public function save() {
   		$schema = (array) $this->schema();
-
   	}
+
+  	public function schema() {
+  		$structure = $this->structure();
+  	}
+
+    public function db() {
+      \M\Database::db('a');
+    }
 }

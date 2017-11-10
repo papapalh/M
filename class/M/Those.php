@@ -6,7 +6,6 @@ namespace {
 	} else {
 		function a($name, $criteria = null) {
 			$class_name = '\M\ORM\\'.str_replace('/', '\\', $name);
-			// var_dump($criteria);
 
 			return \M\IoC::construct($class_name, $criteria);
 		}

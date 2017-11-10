@@ -89,10 +89,12 @@ namespace M {
 			$M_file = M_CLASS_PATH .'/'. $path .'.php';
 
       $app_file = SYS_CLASS_PATH . '/'. $path .'.php';
+
       if (is_file($M_file)) {
         require_once($M_file);
       }
       elseif (is_file($app_file)) {
+        // print_r($app_file);
         require_once($app_file);
       }
       else {
@@ -141,9 +143,12 @@ namespace M {
     {
     }
 
-    public static function pharFilePaths($base, $file)
-    {
+    // 返回目录下所有文件的集合
+    public static function pharFilePaths($file) {
+      $dirs = scandir($file);
 
+      // 移除--.和..文件
+      return array_splice($dirs, 2);
     }
 
 	}

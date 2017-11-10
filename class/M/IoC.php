@@ -16,6 +16,7 @@ class IoC {
    	// var_dump($args);
 
 		// 建立这个类的映射,也就可以调用这个类的方法
+		// print_r($key);
 		$rc = new \ReflectionClass($key);
 		return $rc->newInstanceArgs($args);
 	}
