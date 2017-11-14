@@ -19,9 +19,6 @@
 			else{
 				self::$items = self::fetch();
 			}
-
-				self::$items = self::fetch();
-
 		}
 		
 		// 清空配置数组
@@ -62,25 +59,21 @@
     	}
     	// 检查文件后缀并写入配置JSON
     	$dh = pathinfo($base, PATHINFO_EXTENSION);
-        print_r($dh);
+        // 检查文件名写入配置Config
+        $dir = basename($base, '.yml');
     	switch ($dh) {
     		case 'yml':
-    		case 'yaml':
     			// 获取当前配置文件内容
     			$content = file_get_contents($base);
 
     			$content = trim($content);
     			$content = yaml_parse($content);
 
-                // array_push(array, var)
-    			// array_push($aaa, $content);
-                // print_r($content);
+                $items[$dir] = $content;
     			break;
     		default:
-    			# code...
     			break;
     	}
-        // print_r(gettype($items));
     }
 
     // 获取配置信息
