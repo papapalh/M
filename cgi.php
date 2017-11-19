@@ -7,24 +7,24 @@ require_once 'base.php';
 
 class Application
 {
-	public static function setup()
-	{
-		CGI::setup();
-	}
+    public static function setup()
+    {
+        CGI::setup();
+    }
 
-	// 路由分发
-	public static function main($args)
-	{
-		CGI::main($args);
-	}
+    // 路由分发
+    public static function main($args)
+    {
+        CGI::main($args);
+    }
 
-	public static function shutdown()
-	{
-		CGI::shutdown();
-	}
+    public static function shutdown()
+    {
+        CGI::shutdown();
+    }
 
-	public static function exception($e)
-	{
+    public static function exception($e)
+    {
 
-	}
+    }
 }

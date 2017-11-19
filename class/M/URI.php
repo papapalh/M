@@ -4,12 +4,12 @@ namespace M {
 	class URI 
 	{
 		public static function url($url = null, $query = null, $fragment = null) {
-
+			
 			if (!$url) {
-       	$url = \M\CGI::route();
-      }
-      return $url;
-      // $ui = parse_url($url);
+	       		$url = \M\CGI::route();
+	      	}
+
+	      	return $url;
 		}
 
 
@@ -26,17 +26,14 @@ namespace M {
 			$dir = dirname($_SERVER['SCRIPT_NAME']);
 
 			if (substr($dir, -1) != '/') {
-          $dir .= '/';
-      }
-      // 组合当前url访问路径，例如"http://192.168.17.17/"
-      self::$_base = $scheme.'://'.$host.$dir;
+	        	$dir .= '/';
+	      	}
+	      	// 组合当前url访问路径，例如"http://192.168.17.17/"
+	      	self::$_base = $scheme.'://'.$host.$dir;
 
-      // self::$_rurl = \Gini\Core::moduleInfo(APP_ID)->rurl ?: ['*' => 'assets'];
-
-      // var_dump(self::$_rurl);
+	      	// self::$_rurl = \Gini\Core::moduleInfo(APP_ID)->rurl ?: ['*' => 'assets'];
 		}	
 	}
-
 }
 
 namespace {

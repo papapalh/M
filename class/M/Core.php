@@ -42,6 +42,9 @@ namespace M {
             if (file_exists($compose_path)) {
                 require_once $compose_path;
             }
+            else {
+                die('找不到Composer-Autoload') ;
+            }
 
             // 加载Db
             $db_path =  M_CLASS_PATH . '/M/Those.php';
