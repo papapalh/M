@@ -6,7 +6,7 @@ class View {
  	
  	protected $_path;
  	protected $_vars;
- 	private   $_view;
+ 	private   $view;
  	private   $_ob_cache;
 
  	// 视图初始-赋予变量
@@ -26,6 +26,6 @@ class View {
         $class = '\M\View\HTML';
         $output = \M\IoC::construct($class, $path, $this->_vars);
 
-        return $this->_ob_cache = (string) $output;
+        return $this->view = (string) $output;
  	}
  } 

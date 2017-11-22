@@ -3,11 +3,12 @@ namespace M {
 
 	class URI 
 	{
-		public static function url($url = null, $query = null, $fragment = null) {
+		public static function url($url = null) {
 			
-			if (!$url) {
-	       		$url = \M\CGI::route();
-	      	}
+			if ($url) {
+	       		// $url = \M\CGI::route();
+				$url = self::$_base . $url;
+	     	}
 
 	      	return $url;
 		}
@@ -30,19 +31,19 @@ namespace M {
 	      	}
 	      	// 组合当前url访问路径，例如"http://192.168.17.17/"
 	      	self::$_base = $scheme.'://'.$host.$dir;
-
-	      	// self::$_rurl = \Gini\Core::moduleInfo(APP_ID)->rurl ?: ['*' => 'assets'];
 		}	
 	}
 }
 
 namespace {
-	if (function_exists('URL')) {
+	if (function_exists('URL'))
+	{
         die('URL() 函数已经被定义');
-    } else {
-        function URL($url = null, $query = null, $fragment = null)
+    }
+    else {
+        function URL($url = null)
         {
-            return \M\URI::url($url, $query, $fragment);
+            return \M\URI::url($url);
         }
     }
 }

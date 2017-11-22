@@ -64,4 +64,9 @@ abstract class CGI {
                 break;
         }
     }
+
+    public function display($view, $params = [])
+    {
+        echo V($view, $params);
+    }
 }

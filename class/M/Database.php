@@ -36,4 +36,30 @@ class Database {
     public function adjustTable($table, $schema) {
     	return $this->_driver->adjustTable($table, $schema);
     }
+
+    // 返回bool--检测sql是否正确执行
+    public function result($sql, $params = null)
+    {
+        // 对传入数据处理-生成SQL
+        if (is_array($params)) {
+            foreach ($params as $k => $param) {
+                $sql = str_replace(':'.$k, $param, $sql);
+            }
+        }
+
+        return $this->_driver->result($sql);
+    }
+
+    // 返回sql语句结果
+    public function query($sql, $params = null)
+    {
+        // 对传入数据处理-生成SQL
+        if (is_array($params)) {
+            foreach ($params as $k => $param) {
+                $sql = str_replace(':'.$k, $param, $sql);
+            }
+        }
+
+        return $this->_driver->query($sql);
+    }
 }

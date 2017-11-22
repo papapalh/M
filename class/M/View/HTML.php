@@ -25,6 +25,8 @@ class HTML
             // 包含文件
             include SYS_VIEW_PATH.'/'.$this->_path.'.phtml';
 
+            // var_dump(SYS_VIEW_PATH.'/'.$this->_path.'.phtml');die;
+
             // 获取缓冲
             $output = ob_get_contents();
 
