@@ -80,6 +80,7 @@ class ORM {
         $this->_tableName = str_replace('/', '_', $name);
     }
 
+    // save数据
     public function save() {
 
         // 获取orm模型定义属性与字段
@@ -88,12 +89,29 @@ class ORM {
         // 数据库连接
         $db = $this->db();
 
+        // 操作数据表
+        $tbl_name = $this->tableName();
+
         $structure = get_object_vars($this);
 
         // 找出修改之后字段和ORM定义字段不同的
         $db_data = array_diff_assoc((array) $structure, (array) $schema);
 
-        print_r($db_data);
+
+
+        // 排除框架ORM属性定义影响
+        foreach ($db_data as $key => $value) {
+            if ($key == '_name' || $key == '_tableName') {
+                unset($db_data[$key]);
+            }
+        }
+
+        $sql = 'INSERT INTO '.$this->tableName().' (' . implode(',', array_keys($db_data)) .') VALUES (\''.implode('\',\'', $db_data).'\')';
+
+
+        $aaa = $db->result($sql);
+        print_r( $aaa );
+
 
 
         // $aaa = $db->query('select * from user;');

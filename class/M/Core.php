@@ -4,6 +4,9 @@ namespace M {
 
     class Core {
 
+        // 全局静态内存
+        public static $GLOBALS;
+
         // 框架开始
         public static function start() {
             // 定义报告错误
@@ -141,6 +144,19 @@ namespace {
     else{
         function V($path, $vars = null) {
             return \M\IoC::construct('\M\View', $path, $vars);
+        }
+    }
+
+    if (function_exists('_G')) {
+        die('_G 是全局函数，请检查');
+    }
+    else {
+        function _G($key, $value = null) {
+            if (is_null($value)) {
+                return isset(\M\Core::$GLOBALS[$key]) ? \M\Core::$GLOBALS[$key] : null;
+            } else {
+                \M\Core::$GLOBALS[$key] = $value;
+            }
         }
     }
 }

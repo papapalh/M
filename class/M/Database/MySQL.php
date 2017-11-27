@@ -32,6 +32,7 @@ class MySQL extends \PDO {
     				$this->quoteMust(),
     				$this->quote('Innodb')
     			);
+        print_r($SQL);
 
     	$result = $this->result($SQL);
         if (!$result) {

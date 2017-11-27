@@ -56,7 +56,7 @@ abstract class CGI {
             case 'get':
                 return $this->env['get'];
                 break;
-            case 'file':
+            case 'files':
                 return $this->env['files'];
                 break;
             default:
