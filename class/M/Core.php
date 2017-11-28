@@ -148,7 +148,7 @@ namespace {
     }
 
     if (function_exists('_G')) {
-        die('_G 是全局函数，请检查');
+        die('_G 是全局缓存函数，请检查');
     }
     else {
         function _G($key, $value = null) {
@@ -157,6 +157,34 @@ namespace {
             } else {
                 \M\Core::$GLOBALS[$key] = $value;
             }
+        }
+    }
+
+    if (function_exists('_V')) {
+        die('_V 是校验函数，请检查');
+    }
+    else {
+        function _V($module, $form) {
+            $validator = \M\Ioc::construct('\M\Module\Validator\\'.$module, $form);
+
+            return $validator;
+        }
+    }
+
+    if (function_exists('H')) {
+        die('H() 是系统过滤字符函数，请检查');
+    } else {
+        ini_set('mbstring.substitute_character', 'none');
+        function H() {
+            $args = func_get_args();
+            if (count($args) > 1) {
+                $str = call_user_func_array('sprintf', $args);
+            } else {
+                $str = $args[0];
+            }
+
+            // iconv('UTF-8', 'UTF-8//TRANSLIT//IGNORE', $str)
+            return htmlentities(mb_convert_encoding($str, 'UTF-8', 'UTF-8'), ENT_QUOTES, 'UTF-8');
         }
     }
 }

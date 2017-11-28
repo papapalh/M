@@ -67,12 +67,13 @@ namespace {
         die('S 系统占用');
     }
     else {
-        function S($key, $value = '', $timeout = 1)
+        function S($key, $value = null, $timeout = 1)
         {
             $redis = new \M\Redis();
 
             if (!$value) {
                 // if(!isset($_COOKIE[$key])) return false;
+
 
                 //清除缓冲区
                 ob_clean();

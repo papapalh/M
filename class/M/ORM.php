@@ -5,9 +5,13 @@ namespace M;
 
 class ORM {
 
-    // ORM-名字
+    // ORM-表名
     private $_name;
+    // ORM-字段名
     private $_tableName;
+    // ORM-sql
+    private $_sql;
+
 
 	// 魔术方法Call
 	public function __call($method, $params) {
@@ -19,7 +23,11 @@ class ORM {
 	
 	// 魔术方法
 	function __construct($criteria = null) {
-    	// $structure = $this->structure();
+
+        // 找到ID对应的ORM
+        if ($criteria) {
+            $this->criteria($criteria);
+        }
   	}
 
 
@@ -97,24 +105,103 @@ class ORM {
         // 找出修改之后字段和ORM定义字段不同的
         $db_data = array_diff_assoc((array) $structure, (array) $schema);
 
-
-
         // 排除框架ORM属性定义影响
         foreach ($db_data as $key => $value) {
-            if ($key == '_name' || $key == '_tableName') {
+            if ($key == '_name' || $key == '_tableName' || $key == '_sql') {
                 unset($db_data[$key]);
             }
         }
 
         $sql = 'INSERT INTO '.$this->tableName().' (' . implode(',', array_keys($db_data)) .') VALUES (\''.implode('\',\'', $db_data).'\')';
 
+        $result = $db->result($sql);
 
-        $aaa = $db->result($sql);
-        print_r( $aaa );
+        return $result;
+    }
 
+    public function criteria($criteria)
+    {
+        // 数据库连接
+        $db = $this->db();
 
+        $sql = 'SELECT * FROM '.$this->tableName().' WHERE id = '.(int) $criteria;
 
-        // $aaa = $db->query('select * from user;');
-        // print_r(($structure));
+        $result = $db->query($sql);
+        
+        $o = $result->fetch();
+
+        $structure = get_object_vars($this);
+
+        // 排除框架ORM属性定义影响
+        foreach ($structure as $key => $value) {
+            $this->$key = $o[$key];
+        }
+    }
+
+    public function whose($name)
+    {
+        $this->_sql .= " WHERE `$name` ";
+        return $this;
+    }
+
+    public function is($value)
+    {
+        $this->_sql .= "= '$value'";
+        return $this;
+    }
+
+    // 数据库查询--redis(缓存)
+    public function redis($key = null, $time = null)
+    {
+        if ($key) {
+            $redis = new \M\Redis();
+
+            // 检查键是否存在
+            $o = $redis->get($key);
+            // 返回结果
+            if ($o) {
+                $o = json_decode($o, true);
+            }
+            else {
+                // 没有则数据查询--获取数据对象集合
+                if (!$time) $time = 60;
+
+                $o = $this->_getValue();
+
+                // 存入redis
+                $redis->set($key, json_encode($o), $time);
+            }
+        }
+        else {
+            $o = $this->_getValue();
+        }
+
+        // 数据集赋予对象
+        $structure = get_object_vars($this);
+
+        // 排除框架ORM属性定义影响
+        foreach ($structure as $key => $va) {
+            $this->$key = $o[$key];
+        }
+        return $this;
+
+    }
+
+    // 连接数据库--获取全部数据集合
+    public function _getValue()
+    {
+        // 数据库连接-查询
+        $db = $this->db();
+
+        $sql = 'SELECT * FROM :table :_sql LIMIT 1';
+
+        $result = $db->query($sql,[
+                    'table' => $this->tableName(),
+                    '_sql'  => $this->_sql
+                ]);
+        // 获取数据集合
+        $o = $result->fetch();
+
+        return $o;
     }
 }

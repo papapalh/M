@@ -32,7 +32,6 @@ class MySQL extends \PDO {
     				$this->quoteMust(),
     				$this->quote('Innodb')
     			);
-        print_r($SQL);
 
     	$result = $this->result($SQL);
         if (!$result) {
@@ -127,7 +126,7 @@ class MySQL extends \PDO {
             return true;
         }
         else {
-            return flase;
+            return false;
         }
     }
 
