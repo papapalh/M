@@ -90,7 +90,6 @@ class ORM {
 
     // save数据
     public function save() {
-
         // 获取orm模型定义属性与字段
         $schema = (array) $this->schema();
 
@@ -112,12 +111,44 @@ class ORM {
             }
         }
 
-        $sql = 'INSERT INTO '.$this->tableName().' (' . implode(',', array_keys($db_data)) .') VALUES (\''.implode('\',\'', $db_data).'\')';
+        // 更新
+        if ($this->id) {
+
+            $object = a($this->tableName(), $this->id);
+
+            if (!is_object($object)) return false;
+
+            // 对象转数组
+            foreach ($object as $k => $v) {
+                $arr[$k] = $v;
+            }
+            
+            // 找差异
+            $data = array_diff($structure, $arr);
+
+            // 拼接sql
+            foreach ($data as $k => $v) {
+                if ($k == '_name' || $k == '_tableName') {
+                    continue;
+                }
+                $update .= sprintf(',%s = \'%s\'', $k, $v);
+            }
+
+            $sql = sprintf('UPDATE %s SET %s WHERE id = %s',
+                        $this->tableName(),
+                        substr($update, 1),
+                        $this->id
+                    );
+        }
+        else {
+            $sql = 'INSERT INTO '.$this->tableName().' (' . implode(',', array_keys($db_data)) .') VALUES (\''.implode('\',\'', $db_data).'\')';
+        }
 
         $result = $db->result($sql);
 
         return $result;
     }
+
 
     public function criteria($criteria)
     {
@@ -136,6 +167,7 @@ class ORM {
         foreach ($structure as $key => $value) {
             $this->$key = $o[$key];
         }
+        $this->id = $o['id'];
     }
 
     public function whose($name)
@@ -157,7 +189,7 @@ class ORM {
             $redis = new \M\Redis();
 
             // 检查键是否存在
-            $o = $redis->get($key);
+            $o = $redis->get(S('username').$key);
             // 返回结果
             if ($o) {
                 $o = json_decode($o, true);
@@ -169,7 +201,7 @@ class ORM {
                 $o = $this->_getValue();
 
                 // 存入redis
-                $redis->set($key, json_encode($o), $time);
+                $redis->set(S('username').$key, json_encode($o), $time);
             }
         }
         else {
@@ -180,9 +212,10 @@ class ORM {
         $structure = get_object_vars($this);
 
         // 排除框架ORM属性定义影响
-        foreach ($structure as $key => $va) {
+        foreach ($structure as $key => $v) {
             $this->$key = $o[$key];
         }
+        $this->id = $o['id'];
         return $this;
 
     }
@@ -204,4 +237,85 @@ class ORM {
 
         return $o;
     }
+
+    // 关联关系
+    public function connect($connect)
+    {
+        if (!is_object($connect)) {
+            return false;
+        }
+
+        // 关系表建立
+        $connect_name = '_r_'.$this->tableName().'_'.$connect->tableName();
+
+        // 数据库连接
+        $db = $this->db();
+
+        // 创建关联表
+        $sql = sprintf('CREATE TABLE IF NOT EXISTS %s (`id1` INT, `id2` INT) ENGINE = %s',
+                    $connect_name,
+                    'Innodb'
+                );
+
+        if ($db->result($sql)) {
+
+            $sql = sprintf("SELECT * FROM %s WHERE id1 = '%s' AND id2 = '%s'",
+                        $connect_name,
+                        $this->id,
+                        $connect->id
+                    );
+            $result = $db->query($sql);
+        
+            $o = $result->fetchAll();
+
+            if (count($o) > 0) {
+                return false;
+            }
+            
+            $sql = 'INSERT INTO '.$connect_name.' (id1 , id2) VALUES (\''. $this->id .'\',\''.$connect->id.'\')';;
+            if (!$db->result($sql)) {
+                return false;
+            }
+            return true; 
+        }
+        else {
+            return false;
+        }
+    }
+
+    // 对应关联只建立一次
+    // public function one_connect($connect)
+    // {
+    //     if (!is_object($connect)) {
+    //         return false;
+    //     }
+
+    //     // 关系表建立
+    //     $connect_name = '_r_'.$this->tableName().'_'.$connect->tableName();
+
+    //     // 数据库连接
+    //     $db = $this->db();
+
+    //     // 创建关联表
+    //     $sql = sprintf('CREATE TABLE IF NOT EXISTS %s (`id1` INT, `id2` INT) ENGINE = %s',
+    //                 $connect_name,
+    //                 'Innodb'
+    //             );
+
+    //     if ($db->result($sql)) {
+
+    //         // 删除多余关联关系
+    //         $sql = 'DELETE FROM '.$connect_name. ' WHERE id = '.$this->id;
+    //         if ($db->result($sql)) {
+    //             $sql = 'INSERT INTO '.$connect_name.' (id1 , id2) VALUES (\''. $this->id .'\',\''.$connect->id.'\')';;
+    //             if (!$db->result($sql)) {
+    //                 return false;
+    //             }
+    //             return true;
+    //         }
+    //     }
+    //     else {
+    //         return false;
+    //     }
+    // }
 }

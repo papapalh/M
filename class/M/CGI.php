@@ -23,7 +23,7 @@ class CGI
             ])->execute();
 
         // output方法是干什么的?
-        $response->output();
+        // $response->output();
     }
 
     // 获取控制器和方法(反转)
@@ -38,13 +38,23 @@ class CGI
         $class = null;
         // 循环路由到指定类
         $class = '';
-        $class_namespace = '\M\Controller\CGI\\';
-        // 类路径
-        $class = $class_namespace . $candidates['class'];
+
+        // 路由API
+        if ($candidates['class'] == 'api') {
+            $class_namespace = '\M\Api\\';
+            $class = $class_namespace . $candidates['action'];
+
+        }
+        // 路由CGI
+        else {
+            $class_namespace = '\M\Controller\CGI\\';
+            $class = $class_namespace . $candidates['class'];
+        }
+
         if (!class_exists($class)) {
             // static::redirect('error/404');
             die('没有这个定义类');
-        } 
+        }
 
         // 路径 例如：/home/ubuntu/data/funny/class/
         \M\Config::set('runtime.controller_path', $path);
@@ -54,10 +64,20 @@ class CGI
         // 控制器反转
         $controller = \M\IoC::construct($class);
 
-        // 赋予控制器-参数与方法-和数据
-        $controller->action = $candidates['action'];
-        $controller->params = $candidates['params'];
-        $controller->env = $env;
+        // 路由API
+        if ($candidates['class'] == 'api') {
+            // 赋予控制器-参数与方法-和数据
+            $controller->action = array_shift($candidates['params']);
+            $controller->params = $candidates['params'];
+            $controller->env = $env;
+        }
+        // 路由CGI
+        else {
+            // 赋予控制器-参数与方法-和数据
+            $controller->action = $candidates['action'];
+            $controller->params = $candidates['params'];
+            $controller->env = $env;
+        }
 
         return $controller;
     }

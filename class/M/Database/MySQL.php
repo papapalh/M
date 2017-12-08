@@ -51,7 +51,7 @@ class MySQL extends \PDO {
         return addslashes($name);
     }
 
-    // 处理添加字段
+    // 处理主键索引
     public function quoteField($table, $schema)
     {
 
@@ -74,6 +74,14 @@ class MySQL extends \PDO {
                                 $this->addFiled($filed)
                             );
                     break;
+                case 'double':
+                    $sql = sprintf('alter table %s add %s %s(16,2) %s;',
+                                $this->quoteIdent($table),
+                                $key,
+                                strtoupper($type),
+                                $this->addFiled($filed)
+                            );
+                    break;
                 case 'string':
                     $sql = sprintf('alter table %s add %s VARCHAR (%s);',
                                 $this->quoteIdent($table),
@@ -83,6 +91,12 @@ class MySQL extends \PDO {
                     break;
                 case 'object':
                     $sql = sprintf('alter table %s add %s_id BIGINT NOT NULL;',
+                                $this->quoteIdent($table),
+                                $key
+                            );
+                    break;
+                case 'datetime':
+                    $sql = sprintf('alter table %s add %s DATETIME;',
                                 $this->quoteIdent($table),
                                 $key
                             );
