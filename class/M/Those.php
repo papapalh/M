@@ -7,6 +7,7 @@ namespace M {
         private $_table;
         private $_field;
         private $_sql;
+        private $_end;
         private $_join;
         private $_alias;
 
@@ -23,7 +24,10 @@ namespace M {
 
         public function is($v)
         {
-        	$this->_sql .= $v;
+            if (is_object($v)) {
+                $v = $v->id;
+            }
+        	$this->_sql .= '\''.$v.'\'';
             return $this;
         }
 
@@ -60,17 +64,22 @@ namespace M {
 
             foreach ($result as $one) {
                 // 实例化对应ORM
-                $object = \M\IoC::construct('\M\ORM\\'.$this->_name);
-
-                foreach ($one as $o => $v) {
-                    if ($o == 'id') {
-                        $object->id = $v;
+                if (class_exists('\M\ORM\\'.$this->_name)) {
+                    $object = \M\IoC::construct('\M\ORM\\'.$this->_name);
+                
+                    foreach ($one as $o => $v) {
+                        if ($o == 'id') {
+                            $object->id = $v;
+                        }
+                        if ($object->$o) {
+                            $object->$o = $v;
+                        }
                     }
-                    if ($object->$o) {
-                        $object->$o = $v;
-                    }
+                    array_push($those, $object);
                 }
-                array_push($those, $object);
+                else {
+                    $those[][] = $one['id2'];
+                }
             }
             return $those;
         }
@@ -85,7 +94,7 @@ namespace M {
                     $sql = 'SELECT * FROM '. $this->_name;
                     break;
                 default:
-                    $sql = sprintf('SELECT * FROM %s %s',$this->_name, $this->_sql);
+                    $sql = sprintf('SELECT * FROM %s %s %s',$this->_name, $this->_sql, $this->_end);
                     break;
             }
             return $sql;
@@ -96,7 +105,7 @@ namespace M {
         {
             $db = \M\Database::db();
 
-            if (!$this->_sql) {
+            if (!$this->_sql && !$this->_end) {
                 $sql =  $this->_getSql('*');
             }
             else {
@@ -106,6 +115,26 @@ namespace M {
             $result = $db->query($sql)->fetchAll();
 
             return $result;
+        }
+
+        // 查找关联
+        public function connect($table)
+        {
+            if ($table) {
+                $this->_name = '_r_'.$this->_name.'_'.$table;
+            }
+            return $this;
+        }
+
+        public function limit($count)
+        {
+            if (!$count) {
+                return $this;
+            }
+
+            $this->_end = 'limit '.$count;
+            return $this;
+
         }
     }
 }

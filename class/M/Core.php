@@ -87,7 +87,8 @@ namespace M {
                 require_once($app_file);
             }
             else {
-                die("Missing Autoloading Class!\n");
+                error_log("Missing Autoloading Class!\n");
+                return false;
             }
         }
 
