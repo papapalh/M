@@ -55,6 +55,12 @@ namespace M {
               require_once $db_path;
             }
 
+            // 加载Redis
+            $redis_path =  M_CLASS_PATH . '/M/Redis.php';
+            if (file_exists($redis_path)) {
+              require_once $redis_path;
+            }
+
             \M\Config::setup();
             // var_dump(getcwd());
             // \M\Event::setup();

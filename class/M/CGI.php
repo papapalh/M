@@ -41,7 +41,7 @@ class CGI
 
         // 路由API
         if ($candidates['class'] == 'api') {
-            $class_namespace = '\M\Api\\';
+            $class_namespace = '\M\API\\';
             $class = $class_namespace . $candidates['action'];
 
         }
