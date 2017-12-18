@@ -4,42 +4,34 @@ namespace M\Controller\CLI;
 class ORM extends \M\Controller\CLI
 {
 
-	public function actionUpdate(){
-		
-    // echo "Updating database structures according ORM definition...\n";
-
-    // 获取orm下所有文件集合
-    $orm_dirs = \M\Core::pharFilePaths(SYS_ORM_PATH);
-
-    // 循环
-    foreach ($orm_dirs as $orm) {
-
-        $orm = basename($orm, '.php');
-
-        // 反转ORM类
-        $className = '\M\ORM\\'.str_replace('/', '\\', $orm);
-
-        $orms[$orm] = \M\IoC::construct($className);
-
-        $o = $orms[$orm];
-
-        // 连接数据库
-        $db = $o->db();
-        // print_r(var_dump($db));
-
-        // print_r($o->schema());
-        $db->adjustTable($o->tableName(), $o->schema());
+    public function actionUpdate(){
         
+        echo "\e[32m  更新数据库表结构...\e[0m\n";
 
-        
+        // 获取orm下所有文件集合
+        $orm_dirs = \M\Core::pharFilePaths(SYS_ORM_PATH);
 
-        // $relations = $o->relations();
-        // $structure = $o->structure();
+        // 循环文件更新表结构
+        foreach ($orm_dirs as $orm) {
 
-        // printf("   %s\n", $orm);
+            $orm = basename($orm, '.php');
 
-        // print_r($orms);       
+            // 反转ORM类
+            $className = '\M\ORM\\'.str_replace('/', '\\', $orm);
+
+            $orms[$orm] = \M\IoC::construct($className);
+
+            $o = $orms[$orm];
+
+            // 连接数据库
+            $db = $o->db();
+
+            $db->adjustTable($o->tableName(), $o->schema());
+            
+            echo "    ".$o->tableName()."\n";
+        }
+
+        echo "\e[32m  done...\e[0m\n";
+
     }
-
-	}
 }

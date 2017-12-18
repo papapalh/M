@@ -27,6 +27,7 @@ class MySQL extends \PDO {
     // 建立对应table表
     public function createTable($table, $schema)
     {
+
         $SQL = sprintf('CREATE TABLE IF NOT EXISTS %s (%s) ENGINE = %s DEFAULT CHARSET=utf8',
                     $this->quoteIdent($table),
                     $this->quoteMust(),

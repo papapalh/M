@@ -16,23 +16,23 @@ namespace M {
             spl_autoload_register('\M\Core::autoload');
 
             // 脚本执行完成/意外死掉/即将关闭时调用函数
-            register_shutdown_function('\M\Core::shutdown');
+            // register_shutdown_function('\M\Core::shutdown');
 
             // 自定义错误处理程序
-            set_exception_handler('\M\Core::exception');
+            // set_exception_handler('\M\Core::exception');
 
             // 设置用户自定义的错误处理程序
-            set_error_handler('\M\Core::error', E_ALL & ~E_NOTICE);
+            // set_error_handler('\M\Core::error', E_ALL & ~E_NOTICE);
 
             // Assert函数配置
             // Assert函数的开关
-            assert_options(ASSERT_ACTIVE, 1);
+            // assert_options(ASSERT_ACTIVE, 1);
             // 当表达式为false时，是否要输出警告性的错误提示
-            assert_options(ASSERT_WARNING, 0);
+            // assert_options(ASSERT_WARNING, 0);
             //是否关闭错误提示
-            assert_options(ASSERT_QUIET_EVAL, 1);
+            // assert_options(ASSERT_QUIET_EVAL, 1);
             // 是否启用回调
-            assert_options(ASSERT_CALLBACK, '\M\Core::assertion');
+            // assert_options(ASSERT_CALLBACK, '\M\Core::assertion');
 
             // mb扩展设置字符编码
             mb_internal_encoding('utf-8');
@@ -89,11 +89,10 @@ namespace M {
                 require_once($M_file);
             }
             elseif (is_file($app_file)) {
-                // print_r($app_file);
                 require_once($app_file);
             }
             else {
-                error_log("Missing Autoloading Class!\n");
+                die('自动挂载出错，请检查路径'."\n");
                 return false;
             }
         }

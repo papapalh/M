@@ -15,7 +15,7 @@ class CLI
         $cmd = count($argv) > 0 ? strtolower($argv[1]) : '';
 
         // 挂载@文件,敏感文件
-        if ($cmd[0] == '@') {}
+        // if ($cmd[0] == '@') {}
 
         // 分发初始方法
         switch ($cmd) {

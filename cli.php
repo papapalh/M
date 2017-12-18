@@ -7,25 +7,15 @@ require_once 'base.php';
 
 class Application
 {
+    // CLI启动
     public static function setup()
     {
         CLI::setup();
     }
 
-    // 路由分发
+    // CLI路由分发
     public static function main($args)
     {
-        // array_shift($argv);
         CLI::main($args);
     }
-
-    // public static function shutdown()
-    // {
-    //     CLI::shutdown();
-    // }
-
-    // public static function exception($e)
-    // {
-
-    // }
 }

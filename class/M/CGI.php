@@ -52,6 +52,7 @@ class CGI
         }
 
         if (!class_exists($class)) {
+
             // static::redirect('error/404');
             die('没有这个定义类');
         }
