@@ -4,21 +4,21 @@ namespace M;
 
 class Event
 {
-	public static function setup()
-	{
-		// 遍历hooks配置json
-		foreach ((array) \M\Config::get('hooks') as $event => $event_ooks) {
-			foreach ((array) $event_hooks as $key => $hook) {
-				if (!is_string($key)) {
+    public static function setup()
+    {
+        // 遍历hooks配置json
+        foreach ((array) \M\Config::get('hooks') as $event => $event_ooks) {
+            foreach ((array) $event_hooks as $key => $hook) {
+                if (!is_string($key)) {
           $key = null;
         }
-			}
+            }
 
 
-		}
-	}
+        }
+    }
 
-	// ["hooks"]=>
+    // ["hooks"]=>
  //  array(12) {
  //    ["user.isAllowedTo[查看所有仪器]"]=>
  //    array(1) {

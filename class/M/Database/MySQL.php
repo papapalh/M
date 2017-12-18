@@ -4,7 +4,7 @@ namespace M\Database;
 
 class MySQL extends \PDO { 
 
-	private $_table_status;
+    private $_table_status;
 
     function __construct($dsn, $username = null, $password = null, $options = null)
     {
@@ -19,7 +19,7 @@ class MySQL extends \PDO {
     // orm 建表核心方法
     public function adjustTable($table, $schema)
     {
- 		// 建立数据表
+        // 建立数据表
         $this->createTable($table, $schema);     
 
     }
@@ -27,13 +27,13 @@ class MySQL extends \PDO {
     // 建立对应table表
     public function createTable($table, $schema)
     {
-    	$SQL = sprintf('CREATE TABLE IF NOT EXISTS %s (%s) ENGINE = %s DEFAULT CHARSET=utf8',
-    				$this->quoteIdent($table),
-    				$this->quoteMust(),
-    				$this->quote('Innodb')
-    			);
+        $SQL = sprintf('CREATE TABLE IF NOT EXISTS %s (%s) ENGINE = %s DEFAULT CHARSET=utf8',
+                    $this->quoteIdent($table),
+                    $this->quoteMust(),
+                    $this->quote('Innodb')
+                );
 
-    	$result = $this->result($SQL);
+        $result = $this->result($SQL);
         if (!$result) {
             die($this->quoteIdent($table)."表创建失败！\n".'失败SQL:'.$SQL);
         }
@@ -55,13 +55,13 @@ class MySQL extends \PDO {
     public function quoteField($table, $schema)
     {
 
-    	foreach ($schema as $key => $fileds) {
+        foreach ($schema as $key => $fileds) {
 
-    		if ($key == 'db_index'){
-    			break;
-    		}
+            if ($key == 'db_index'){
+                break;
+            }
  
-    		$filed = explode(':', $fileds);
+            $filed = explode(':', $fileds);
 
             $type = array_shift($filed);
 
@@ -106,19 +106,19 @@ class MySQL extends \PDO {
                     break;
             }
             $this->query($sql);
-    	}
+        }
 
-    	return true;
+        return true;
     }
 
     // 建立必须字段
     public function quoteMust()
     {
-    	// 建表必须属性,虚属性
-    	$sql .= '`_extra` TEXT NULL ,';
-    	// 建表必须属性,自增ID
-    	$sql .= '`id` BIGINT UNSIGNED AUTO_INCREMENT, PRIMARY KEY ( `id` )';
-    	return $sql;
+        // 建表必须属性,虚属性
+        $sql .= '`_extra` TEXT NULL ,';
+        // 建表必须属性,自增ID
+        $sql .= '`id` BIGINT UNSIGNED AUTO_INCREMENT, PRIMARY KEY ( `id` )';
+        return $sql;
     }
 
     // 建立相应字段

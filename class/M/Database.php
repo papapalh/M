@@ -13,7 +13,7 @@ class Database {
         // 定义driver判断数据库类型--可扩展为其他数据库
         $driver_class = '\M\Database\\'.$driver_name;
 
-    	$this->_driver = \M\IoC::construct($driver_class, $dsn, $username, $password, $options);
+        $this->_driver = \M\IoC::construct($driver_class, $dsn, $username, $password, $options);
 
         
     }
@@ -34,7 +34,7 @@ class Database {
 
     // orm建表核心方法
     public function adjustTable($table, $schema) {
-    	return $this->_driver->adjustTable($table, $schema);
+        return $this->_driver->adjustTable($table, $schema);
     }
 
     // 返回bool--检测sql是否正确执行

@@ -18,7 +18,7 @@ namespace M {
 
         public function whose ($field)
         {
-        	$this->_sql .= sprintf('WHERE %s = ',$field);
+            $this->_sql .= sprintf('WHERE %s = ',$field);
             return $this;
         }
 
@@ -27,7 +27,7 @@ namespace M {
             if (is_object($v)) {
                 $v = $v->id;
             }
-        	$this->_sql .= '\''.$v.'\'';
+            $this->_sql .= '\''.$v.'\'';
             return $this;
         }
 
@@ -109,7 +109,7 @@ namespace M {
                 $sql =  $this->_getSql('*');
             }
             else {
-            	$sql =  $this->_getSql();
+                $sql =  $this->_getSql();
             }
 
             $result = $db->query($sql)->fetchAll();

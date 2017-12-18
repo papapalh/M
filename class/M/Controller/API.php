@@ -6,19 +6,19 @@ namespace M\Controller
 
         static $info;
 
-    	public function check_token(){
+        public function check_token(){
 
-    		// 抓取Token
-    		$token = $_SERVER['HTTP_TOKEN'];
+            // 抓取Token
+            $token = $_SERVER['HTTP_TOKEN'];
 
-        	$value = R($token);
+            $value = R($token);
 
-        	if (!$value) {
+            if (!$value) {
                 $this->error();
-        	}
+            }
 
             static::$info = $value;
-    	}
+        }
 
         public function user_info(){
             $token = json_decode(static::$info);

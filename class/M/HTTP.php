@@ -6,7 +6,7 @@ class HTTP
 {
     public static function get($url)
     {
-    	return self::request('GET', $url, []);
+        return self::request('GET', $url, []);
     }
 
     public static function request($method, $url, $query)
@@ -22,9 +22,9 @@ class HTTP
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         // 设置头以JSON形式返回
         curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-		    	'Content-Type: application/json; charset=utf-8'
-			)
-		);
+                'Content-Type: application/json; charset=utf-8'
+            )
+        );
 
         if ($method == 'POST') {
             //设置post方式提交  
@@ -40,7 +40,7 @@ class HTTP
 
         $data = json_decode($data, true);
 
-		return $data;
+        return $data;
 
     }
 }

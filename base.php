@@ -39,7 +39,6 @@
     // 定义上传文件目录
     // defined('SYS_UPLOAD_PATH') or define('SYS_UPLOAD_PATH',SYS_PUBLIC_PATH .'/upload');
 
-
     // 定义框架M工作目录
     defined('M_PATH') or define('M_PATH',SYS_PATH . '/M');
 

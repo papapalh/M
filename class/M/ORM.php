@@ -13,40 +13,40 @@ class ORM {
     private $_sql;
 
 
-	// 魔术方法Call
-	public function __call($method, $params) {
-		echo '老铁,你想调用我不存在的方法',$method,'方法<br/>';  
-	    echo '还传了一个参数【';  
-	    echo print_r($arg),'】<br/>';
-	    echo '检查一下呗';
-	}
-	
-	// 魔术方法
-	function __construct($criteria = null) {
+    // 魔术方法Call
+    public function __call($method, $params) {
+        echo '老铁,你想调用我不存在的方法',$method,'方法<br/>';  
+        echo '还传了一个参数【';  
+        echo print_r($arg),'】<br/>';
+        echo '检查一下呗';
+    }
+    
+    // 魔术方法
+    function __construct($criteria = null) {
 
         // 找到ID对应的ORM
         if ($criteria) {
             $this->criteria($criteria);
         }
-  	}
+      }
 
 
-  	private static $_structures;
-  	public function structure() {
-  		// 获取当前对象的类名
-  		$class_name = get_class($this);
+      private static $_structures;
+      public function structure() {
+          // 获取当前对象的类名
+          $class_name = get_class($this);
 
         if (!isset(static::$_structures[$class_name])) {
             $properties = $this->properties();
             return $properties;
         }
 
-  	}
+      }
 
     // 取出实例ORM所有public方法里面的方法和参数
-  	public function properties() {
-  		// 把自己这个ORM对象做一个映射
-  		$rc = new \ReflectionClass($this);
+      public function properties() {
+          // 把自己这个ORM对象做一个映射
+          $rc = new \ReflectionClass($this);
         $defaults = $rc->getDefaultProperties();
 
         $properties = [];
@@ -57,13 +57,13 @@ class ORM {
         }
 
         return $properties;
-  	}
+      }
 
     // 获取orm定义对象中所有的方法
-  	public function schema() {
-  		$structure = $this->structure();
+      public function schema() {
+          $structure = $this->structure();
         return $structure;
-  	}
+      }
 
     // 连接数据库
     public function db() {
