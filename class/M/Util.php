@@ -20,25 +20,30 @@ class Util
         // 参数
         $params = $argv;
 
-        if(!empty($class)) {
+        if (!empty($class)) {
             if (!preg_match('|^[a-z][a-z0-9-_]+$|i', $class)) {
                 die('控制器错误');
             }
         }
-        if(!empty($action)) {
+        if (!empty($action)) {
             if (!preg_match('|^[a-z][a-z0-9-_]+$|i', $action)) {
                 die('方法错误');
             }
         }
 
         // 处理控制器
-        switch ($class) {
-          case 'orm':
-              $candidates['class'] = strtoupper($class);
-            break;
-          default:
-              $candidates['class'] = 'Index';
-            break;
+        if ($class) {
+            switch ($class) {
+                case 'orm':
+                    $candidates['class'] = strtoupper($class);
+                break;
+                default:
+                    $candidates['class'] = ucfirst($class);
+                break;
+            }
+        }
+        else {
+            $candidates['class'] = 'Index';
         }
 
         // 处理方法
