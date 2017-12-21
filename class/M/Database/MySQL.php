@@ -2,7 +2,7 @@
 
 namespace M\Database;
 
-class MySQL extends \PDO { 
+class mysql extends \PDO { 
 
     private $_table_status;
 

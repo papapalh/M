@@ -15,8 +15,8 @@ class IoC {
         $key = self::key($name);
 
         // 建立这个类的映射,也就可以调用这个类的方法
-        // print_r($key);
-        $rc = new \ReflectionClass($key);
+        // print_r($args."\n");
+        $rc = new \ReflectionClass($name);
         return $rc->newInstanceArgs($args);
     }
 }
