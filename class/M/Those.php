@@ -14,6 +14,7 @@ namespace M {
         function __construct($name)
         {
             $this->_name = $name;
+            $this->orm_name = ucfirst($name);
         }
 
         public function whose ($field)
@@ -64,8 +65,8 @@ namespace M {
 
             foreach ($result as $one) {
                 // 实例化对应ORM
-                if (class_exists('\M\ORM\\'.$this->_name)) {
-                    $object = \M\IoC::construct('\M\ORM\\'.$this->_name);
+                if (class_exists('\M\ORM\\'.$this->orm_name)) {
+                    $object = \M\IoC::construct('\M\ORM\\'.$this->orm_name);
                 
                     foreach ($one as $o => $v) {
                         if ($o == 'id') {
