@@ -145,6 +145,8 @@ namespace {
         die('a 函数是数据库占用函数,请检查');
     } else {
         function a($name, $criteria = null) {
+            $name = ucfirst($name);
+            
             $class_name = '\M\ORM\\'.str_replace('/', '\\', $name);
 
             return \M\IoC::construct($class_name, $criteria);
