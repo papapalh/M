@@ -25,6 +25,5 @@ class Application
 
     public static function exception($e)
     {
-
     }
 }
