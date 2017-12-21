@@ -42,6 +42,7 @@ class CLI
     }
 
     public static function dispatch(array $argv) {
+
         // 路由
         $candidates = Util::pathAndArgs($argv, true);
 

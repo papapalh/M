@@ -78,6 +78,7 @@ namespace M {
          * @param string $class Autoload class file 
          **/
         public static function autoload($class) {
+
             // 获取类名
             $path = str_replace('\\', '/', $class);
 

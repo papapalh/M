@@ -12,6 +12,7 @@ abstract class CLI {
     public function execute() {
         // 获取参数
         $action = 'action' . $this->action;
+        
         // 获取参数
         $params = (array) $this->params;
 
