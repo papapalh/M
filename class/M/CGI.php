@@ -40,10 +40,9 @@ class CGI
         $class = '';
 
         // 路由API
-        if ($candidates['class'] == 'api') {
+        if ($candidates['class'] == 'Api') {
             $class_namespace = '\M\API\\';
             $class = $class_namespace . $candidates['action'];
-
         }
         // 路由CGI
         else {
@@ -66,7 +65,7 @@ class CGI
         $controller = \M\IoC::construct($class);
 
         // 路由API
-        if ($candidates['class'] == 'api') {
+        if ($candidates['class'] == 'Api') {
             // 赋予控制器-参数与方法-和数据
             $controller->action = array_shift($candidates['params']);
             $controller->params = $candidates['params'];
