@@ -16,13 +16,13 @@ namespace M {
             spl_autoload_register('\M\Core::autoload');
 
             // 脚本执行完成/意外死掉/即将关闭时调用函数
-            // register_shutdown_function('\M\Core::shutdown');
+            register_shutdown_function('\M\Core::shutdown');
 
             // 自定义错误处理程序
-            // set_exception_handler('\M\Core::exception');
+            set_exception_handler('\M\Core::exception');
 
             // 设置用户自定义的错误处理程序
-            // set_error_handler('\M\Core::error', E_ALL & ~E_NOTICE);
+            set_error_handler('\M\Core::error', E_ALL & ~E_NOTICE);
 
             // Assert函数配置
             // Assert函数的开关
