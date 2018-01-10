@@ -71,7 +71,7 @@ namespace {
         {
             $redis = new \M\Redis();
 
-            if (!$value) {
+            if (!isset($value)) {
                 // if(!isset($_COOKIE[$key])) return false;
 
 

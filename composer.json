@@ -1,7 +1,7 @@
 {
     "require":{
         "twbs/bootstrap": "v4.0.0-beta.2",
-        "tecnick.com    cpdf": "dev-master",
+        "tecnick.com/tcpdf": "dev-master",
         "phpoffice/phpexcel": "^1.8"
     },
     "repositories": {

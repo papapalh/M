@@ -43,4 +43,17 @@ namespace {
             return \M\URI::url($url);
         }
     }
+
+    if (function_exists('alert'))
+    {
+        die('alert() 函数已经被定义');
+    }
+    else {
+        function alert($msg = '', $url = '')
+        {
+            $url = URL() . $url;
+            echo sprintf("<script>alert('%s');window.location.href = '%s'</script>", $msg, $url);
+            die;
+        }
+    }
 }

@@ -28,7 +28,6 @@ namespace M\Controller
             // 如Index也没有,则报404
             else {
                 die('调用方法不存在--');
-                // $this->redirect('error/404');
             }
             
             // 获取所有参数
@@ -88,10 +87,10 @@ namespace
                     }
                     else {
                         if ($d->main_img) {
-                            $d->main_img = \M\URI::url().substr($d->main_img, 1);
+                            $d->main_img = \M\URI::url().$d->main_img;
                         }
                         if ($d->url) {
-                            $d->url = \M\URI::url().substr($d->url, 1);
+                            $d->url = \M\URI::url().$d->url;
                         }
                     }
                 }
@@ -108,9 +107,34 @@ namespace
         
 
             echo json_encode($data ,JSON_UNESCAPED_UNICODE);
-            
-            
+        }
+    }
 
+    if (function_exists('success')) {
+        die('系统占用！');
+    }
+    else {
+        function success($msg = '失败', $code = 0) {
+            $json = [
+                        'code' => $code,
+                        'msg'  => $msg
+                    ];
+            echo json_encode($json ,JSON_UNESCAPED_UNICODE);
+            return false;
+        }
+    }
+
+    if (function_exists('fail')) {
+        die('系统占用！');
+    }
+    else {
+        function fail($msg = '失败', $code = 1) {
+            $json = [
+                        'code' => $code,
+                        'msg'  => $msg
+                    ];
+            echo json_encode($json ,JSON_UNESCAPED_UNICODE);
+            return false;
         }
     }
 
