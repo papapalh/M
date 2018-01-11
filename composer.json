@@ -1,13 +1,14 @@
 {
     "require":{
-        "twbs/bootstrap": "v4.0.0-beta.2",
-        "tecnick.com/tcpdf": "dev-master",
-        "phpoffice/phpexcel": "^1.8"
+	"phpoffice/phpexcel": "1.8.0",
+        "tecnickcom/tcpdf": "6.2.*"
     },
+    "name": "banana",
+    "description": "small demo",
     "repositories": {
-        "packagist": {
-            "type": "composer",
-            "url": "https://packagist.phpcomposer.com"
-        }
+    	"packagist": {
+        	"type": "composer",
+        	"url": "https://packagist.phpcomposer.com"
+    	}
     }
 }

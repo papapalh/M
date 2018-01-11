@@ -6,8 +6,8 @@ namespace M\Controller
 
         static $info;
 
-        public function check_token(){
-
+        public function check_token()
+        {
             // 抓取Token
             $token = $_SERVER['HTTP_TOKEN'];
 
@@ -20,7 +20,8 @@ namespace M\Controller
             static::$info = $value;
         }
 
-        public function user_info(){
+        public function user_info()
+        {
             $token = json_decode(static::$info);
             return $token;
         }
@@ -32,7 +33,8 @@ namespace M\Controller
         }
     }
 }
-namespace{
+namespace
+{
     if (function_exists('api_form')) {
         die('系统占用');
     }

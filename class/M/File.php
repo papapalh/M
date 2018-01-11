@@ -24,17 +24,17 @@ class File
         if ($type == 'image/png' || $type == 'image/jpg' || $type == 'image/jpeg') {
         }
         else {
-            self::$error['type'] = '格式错误';
+            self::$error['error'][] = '格式错误!';
         }
 
         // 大小验证--20M
-        if ($file['size'] > 20971520) {
-            self::$error['type'] = '上传文件过大';
+        if ($file['size'] > 20 * 1024 * 1024) {
+            self::$error['error'][] = '上传文件过大!';
         }
 
         // 文件唯一性检查
         if (file_exists($path.$name)) {
-            self::$error['type'] = '文件已存在';
+            self::$error['error'][] = '文件已存在!';
         }
 
         // 如果没错误-则存入图片
@@ -43,6 +43,6 @@ class File
         }
 
         move_uploaded_file($tmp_name, $path . $name);
-        return 'upload/' . $name;
+        return (string)'upload/' . (string)$name;
     }
 }

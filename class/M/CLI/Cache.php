@@ -2,12 +2,7 @@
 
 namespace M;
 
-class Cache{
-    function createCache(){
-        printf("%s\n", 'Updating class cache...');
-        echo '1';
-    }
+class Cache
+{
 }
-$a = new \M\Cache();
-$a->createCache();
 

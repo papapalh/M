@@ -4,7 +4,8 @@ namespace M\Controller\CLI;
 class ORM extends \M\Controller\CLI
 {
 
-    public function actionUpdate(){
+    public function actionUpdate()
+    {
         
         echo "\e[32m  更新数据库表结构...\e[0m\n";
 

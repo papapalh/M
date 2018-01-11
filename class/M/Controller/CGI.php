@@ -89,6 +89,9 @@ namespace
                         if ($d->main_img) {
                             $d->main_img = \M\URI::url().$d->main_img;
                         }
+                        if ($d->head_img) {
+                            $d->head_img = \M\URI::url().$d->head_img;
+                        }
                         if ($d->url) {
                             $d->url = \M\URI::url().$d->url;
                         }
@@ -97,10 +100,10 @@ namespace
             }
             else {
                 if ($data->main_img) {
-                    $data->main_img = \M\URI::url().substr($data->main_img, 1);
+                    $data->main_img = \M\URI::url().$data->main_img;
                 }
                 if ($data->url) {
-                    $data->url = \M\URI::url().substr($data->url, 1);
+                    $data->url = \M\URI::url().$data->url;
                 }
 
             }

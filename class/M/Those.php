@@ -1,6 +1,6 @@
 <?php
-namespace M {
-
+namespace M
+{
     class Those
     {
         private $_name;
@@ -141,7 +141,8 @@ namespace M {
 }
 
 
-namespace {
+namespace
+{
     if (function_exists('a')) {
         die('a 函数是数据库占用函数,请检查');
     } else {

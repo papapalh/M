@@ -4,7 +4,8 @@ namespace M {
 
     class Session
     {
-        public static function setup() {
+        public static function setup()
+        {
             // 如果有配置session文件，则读取
             $session_conf = (array) \M\Config::get('system.session');
             $cookie_params = (array) $session_conf['cookie'];
@@ -99,12 +100,11 @@ namespace {
     }
 
     if (function_exists('G')) {
-      die('G 是系统函数，请检查');
+        die('G 是系统函数，请检查');
     } 
     else{
         function G($name = '') {
             if ($name == 'ME') {
-                // return '123123';
                 return S('username');
             }
         }

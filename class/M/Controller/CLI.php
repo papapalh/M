@@ -1,7 +1,8 @@
 <?php
 namespace M\Controller;
 
-abstract class CLI {
+abstract class CLI
+{
 
     // 方法
     public $action;

@@ -8,7 +8,7 @@ class Util
     {
         // 因为没有加环境变量--所以如果为CLI则过滤第一个参数
         if (PHP_SAPI == 'cli') {
-          array_shift($argv);
+            array_shift($argv);
         }
 
         $candidates = [];

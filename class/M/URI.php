@@ -1,15 +1,12 @@
 <?php
-namespace M {
-
+namespace M
+{
     class URI 
     {
         public static function url($url = null) {
-
             $url = self::$_base . $url;
-
             return $url;
         }
-
 
         protected static $_base;
         protected static $_rurl;
@@ -25,9 +22,9 @@ namespace M {
 
             if (substr($dir, -1) != '/') {
                 $dir .= '/';
-              }
-              // 组合当前url访问路径，例如"http://192.168.17.17/"
-              self::$_base = $scheme.'://'.$host.$dir;
+            }
+            // 组合当前url访问路径，例如"http://192.168.17.17/"
+            self::$_base = $scheme.'://'.$host.$dir;
         }    
     }
 }

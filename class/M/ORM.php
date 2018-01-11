@@ -1,50 +1,40 @@
 <?php
+
 namespace M;
 
-// ORM初始定义
-
-class ORM {
-
+class ORM
+{
     // ORM-表名
     private $_name;
     // ORM-字段名
     private $_tableName;
     // ORM-sql
     private $_sql;
-
-
-    // 魔术方法Call
-    public function __call($method, $params) {
-        echo '老铁,你想调用我不存在的方法',$method,'方法<br/>';  
-        echo '还传了一个参数【';  
-        echo print_r($arg),'】<br/>';
-        echo '检查一下呗';
-    }
     
     // 魔术方法
-    function __construct($criteria = null) {
-
+    function __construct($criteria = null)
+    {
         // 找到ID对应的ORM
         if ($criteria) {
             $this->criteria($criteria);
         }
-      }
+    }
 
-
-      private static $_structures;
-      public function structure() {
-          // 获取当前对象的类名
-          $class_name = get_class($this);
+    private static $_structures;
+    public function structure()
+    {
+        // 获取当前对象的类名
+        $class_name = get_class($this);
 
         if (!isset(static::$_structures[$class_name])) {
             $properties = $this->properties();
             return $properties;
         }
-
-      }
+    }
 
     // 取出实例ORM所有public方法里面的方法和参数
-      public function properties() {
+    public function properties()
+    {
         // 把自己这个ORM对象做一个映射
         $rc = new \ReflectionClass($this);
         $defaults = $rc->getDefaultProperties();
@@ -60,19 +50,21 @@ class ORM {
       }
 
     // 获取orm定义对象中所有的方法
-    public function schema() {
+    public function schema()
+    {
         $structure = $this->structure();
         return $structure;
     }
 
     // 连接数据库
-    public function db() {
+    public function db()
+    {
         return \M\Database::db();
     }
 
     // 获取调用ORM类名
-    public function tableName() {
-
+    public function tableName()
+    {
         if (!isset($this->_tableName)) {
             $this->_prepareName();
         }
@@ -81,7 +73,8 @@ class ORM {
     }
 
     // 获取调用ORM类名
-    private function _prepareName() {
+    private function _prepareName()
+    {
         // 获取当前类名
         list(, , $name) = explode('/', str_replace('\\', '/', strtolower(get_class($this))), 3);
         $this->_name = $name;
@@ -89,7 +82,8 @@ class ORM {
     }
 
     // save数据
-    public function save() {
+    public function save()
+    {
         // 获取orm模型定义属性与字段
         $schema = (array) $this->schema();
 
@@ -217,7 +211,6 @@ class ORM {
         }
         $this->id = $o['id'];
         return $this;
-
     }
 
     // 连接数据库--获取全部数据集合

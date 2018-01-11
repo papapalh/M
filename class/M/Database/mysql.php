@@ -102,6 +102,12 @@ class mysql extends \PDO {
                                 $key
                             );
                     break;
+                case 'text':
+                    $sql = sprintf('alter table %s add %s TEXT;',
+                                $this->quoteIdent($table),
+                                $key
+                            );
+                    break;
                 default:
                     return false;
                     break;
