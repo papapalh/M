@@ -276,6 +276,34 @@ class ORM
         }
     }
 
+    // 获取关联数组
+    public function getConnect($connect)
+    {
+        // 关系表建立
+        $connect_name = '_r_'.$this->tableName().'_'.$connect;
+
+        // 数据库连接
+        $db = $this->db();
+
+        $sql = sprintf("SELECT * FROM %s WHERE id1 = '%s'",
+                        $connect_name,
+                        $this->id
+                    );
+        $result = $db->query($sql);
+
+        $o = $result->fetchAll();
+
+        if (count($o) <= 0) {
+            return false;
+        }
+
+        foreach ($o as $k => $v) {
+            $array[] = $v['id2'];
+        }
+
+        return $array;
+    }
+
     // 对应关联只建立一次
     // public function one_connect($connect)
     // {
