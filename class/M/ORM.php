@@ -291,6 +291,8 @@ class ORM
                     );
         $result = $db->query($sql);
 
+        if (!$result) return false;
+
         $o = $result->fetchAll();
 
         if (count($o) <= 0) {
