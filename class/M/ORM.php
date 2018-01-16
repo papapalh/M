@@ -306,6 +306,19 @@ class ORM
         return $array;
     }
 
+    public function delete()
+    {
+        if (!$this->id) return false;
+
+        $db = $this->db();
+
+        $sql = sprintf("DELETE FROM %s WHERE `id` = '%s'", $this->tableName(), $this->id);
+
+        $result = $db->query($sql);
+
+        if (!$result) return false;
+    }
+
     // 对应关联只建立一次
     // public function one_connect($connect)
     // {

@@ -45,4 +45,18 @@ class File
         move_uploaded_file($tmp_name, $path . $name);
         return (string)'upload/' . (string)$name;
     }
+
+    public static function delete($img = '')
+    {
+        if ($img) {
+            $path = SYS_PUBLIC_PATH.'/';
+
+            $img = $path.$img;
+
+            if (file_exists($img)) {
+                
+                return unlink($img);
+            }
+        }
+    }
 }
