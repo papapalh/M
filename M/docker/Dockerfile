@@ -1,10 +1,6 @@
 FROM ubuntu
 MAINTAINER hong.li hong.li@geneegroup.com
 
-ADD start /bin/start
-
-RUN chmod +x /bin/start
-
 RUN apt-get update \
 	&& apt-get install -y vim \
         && apt-get install -y php7.0-fpm \
