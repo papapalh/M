@@ -1,0 +1,6 @@
+---
+default:
+  dsn: mysql:dbname={$DB_NAME};host={$DB_HOST}
+  username: $DB_USERNAME
+  password: $DB_PASSWORD
+...

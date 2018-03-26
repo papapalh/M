@@ -1,0 +1,5 @@
+---
+redis:
+  ip: $REDIS_IP
+  port: $REDIS_PORT
+...
