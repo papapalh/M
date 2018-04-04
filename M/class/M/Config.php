@@ -10,16 +10,9 @@ class Config
     public static function setup()
     {
         self::clear();
-        $config_file = SYS_PATH.'/cache/config.json';
 
-        // 获取配置文件推入数组
-        if (file_exists($config_file)) {
-            self::$items = (array) @json_decode(file_get_contents($config_file), true);
-        }
-        // 如未定义，则遍历yml读取配置文件
-        else{
-            self::$items = self::fetch();
-        }
+        // 加载配置项
+        self::$items = self::fetch();
     }
         
     // 清空配置数组
@@ -32,44 +25,39 @@ class Config
     {
         $item = [];
 
-        // 检查是否有raw目录
-        if (!is_dir(SYS_RAW_PATH)) {
-            die('没有定义raw目录');
-        }
+        // 检查配置目录
+        if (!is_dir(SYS_RAW_PATH)) die('No Config Dir;');
 
-        $paths = scandir(SYS_RAW_PATH);
-
-        foreach ($paths as $path) {
+        foreach (scandir(SYS_RAW_PATH) as $path) {
             self::_load_config_dir($path, $items);
         }
+
         return $items;
     }
 
-    // 加载config目录内容    
+    // 加载config   
     private static function _load_config_dir($base, &$items)
     {
-        $base =  SYS_RAW_PATH .'/'.$base;
+        $base = SYS_RAW_PATH .'/'.$base;
 
-        // 排除其他无用目录
-        if( $base == '.' || $base == '..' ){
-            return false;
-        }
-        // 检查配置文件文件是否存在
-        if (!file_exists($base)) {
-            return false;
-        }
+        // 剔除多余目录
+        if ( $base == '.' || $base == '..' ) return false;
+
+        
+        if (!file_exists($base)) return false;
+
         // 检查文件后缀并写入配置JSON
         $dh = pathinfo($base, PATHINFO_EXTENSION);
+
         // 检查文件名写入配置Config
         $dir = basename($base, '.yml');
+
         switch ($dh) {
             case 'yml':
                 // 获取当前配置文件内容
                 $content = file_get_contents($base);
-
                 $content = trim($content);
                 $content = yaml_parse($content);
-
                 $items[$dir] = $content;
                 break;
             default:

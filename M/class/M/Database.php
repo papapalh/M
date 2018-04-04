@@ -14,8 +14,6 @@ class Database {
         $driver_class = '\M\Database\\'.$driver_name;
 
         $this->_driver = \M\IoC::construct($driver_class, $dsn, $username, $password, $options);
-
-        
     }
 
     // 连接数据库

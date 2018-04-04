@@ -13,9 +13,9 @@ class Application
     }
 
     // 路由分发
-    public static function main($args)
+    public static function main()
     {
-        CGI::main($args);
+        CGI::main();
     }
 
     public static function shutdown()

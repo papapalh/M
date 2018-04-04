@@ -6,14 +6,16 @@ class CGI
 {
     public static function setup()
     {
-        // URI开始
-        URI::setup();
+        // 加载URL
+        \M\URI::setup();
+
         static::$route = trim($_SERVER['REQUEST_URI'] ?: $_SERVER['ORIG_PATH_INFO'], '/');
-        // Session开始
+
+        // 加载Session
         Session::setup();
     }
 
-    public static function main($argv)
+    public static function main()
     {
         // 获取路由信息调用方法
         $response = static::request(static::$route, [
@@ -21,13 +23,11 @@ class CGI
                 'files' => $_FILES, 'route' => static::$route,
                 'method' => $_SERVER['REQUEST_METHOD'],
             ])->execute();
-
-        // output方法是干什么的?
-        // $response->output();
     }
 
     // 获取控制器和方法(反转)
     public static function request($route, array $env = array()) {
+
         // 切分路由为字符串并进行字符自动解码
         $args = array_map('rawurldecode', explode('/', $route));
         // 定义路径
@@ -39,45 +39,19 @@ class CGI
         // 循环路由到指定类
         $class = '';
 
-        // 路由API
-        if ($candidates['class'] == 'Api') {
-            $class_namespace = '\M\API\\';
-            $class = $class_namespace . $candidates['action'];
-        }
-        // 路由CGI
-        else {
-            $class_namespace = '\M\Controller\CGI\\';
-            $class = $class_namespace . $candidates['class'];
-        }
+        // 路由CGI 
+        $class_namespace = '\M\Controller\CGI\\';
+        $class = $class_namespace . $candidates['class']; 
 
-        if (!class_exists($class)) {
-
-            // static::redirect('error/404');
-            die('没有这个定义类');
-        }
-
-        // 路径 例如：/home/ubuntu/data/funny/class/
-        \M\Config::set('runtime.controller_path', $path);
-        // 类名 例如：\M\Controller\CGI\Index
-        \M\Config::set('runtime.controller_class', $class);
+        if (!class_exists($class)) die('没有这个定义类');
 
         // 控制器反转
         $controller = \M\IoC::construct($class);
 
-        // 路由API
-        if ($candidates['class'] == 'Api') {
-            // 赋予控制器-参数与方法-和数据
-            $controller->action = array_shift($candidates['params']);
-            $controller->params = $candidates['params'];
-            $controller->env = $env;
-        }
-        // 路由CGI
-        else {
-            // 赋予控制器-参数与方法-和数据
-            $controller->action = $candidates['action'];
-            $controller->params = $candidates['params'];
-            $controller->env = $env;
-        }
+        // 赋予控制器-参数与方法-和数据
+        $controller->action = $candidates['action'];
+        $controller->params = $candidates['params'];
+        $controller->env = $env;
 
         return $controller;
     }
